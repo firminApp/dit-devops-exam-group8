@@ -1,35 +1,35 @@
-# Users Microservice (Node.js)
+# Microservice Users – Bibliothèque Numérique DIT
 
-Ce microservice gère les utilisateurs de la bibliothèque numérique du DIT.
+## Rôle
+Gère les utilisateurs de la bibliothèque (création, consultation, modification, suppression, gestion des rôles).
 
-## Fonctionnalités
-- Création d’utilisateurs
-- Liste des utilisateurs
-- Gestion des types d’utilisateurs (Etudiant, Professeur, Personnel administratif)
-- Consultation du profil utilisateur
-
-## Démarrage local
-
-```bash
-cd backend/microservices/users
-npm install
-npm run dev
-```
-
-Le service sera accessible sur http://localhost:3001
-
-## Endpoints
+## Endpoints principaux
 - `POST /users` : Créer un utilisateur
 - `GET /users` : Lister les utilisateurs
-- `GET /users/:id` : Consulter le profil d’un utilisateur
-- `PUT /users/:id` : Modifier un utilisateur (optionnel)
-- `DELETE /users/:id` : Supprimer un utilisateur (optionnel)
+- `GET /users/:id` : Consulter un profil
+- `PUT /users/:id` : Modifier un utilisateur
+- `DELETE /users/:id` : Supprimer un utilisateur
 
-## Exemple de payload pour création
-```json
-{
-  "nom": "Jean Dupont",
-  "email": "jean.dupont@dit.sn",
-  "type": "Etudiant"
-}
+## Types d’utilisateurs
+- Étudiant
+- Professeur
+- Personnel administratif
+
+## Lancement
+Dans ce dossier :
+```bash
+npm install
+npm start
 ```
+
+Ou via Docker Compose (recommandé).
+
+## Configuration
+- Variables d’environnement dans `.env`
+- Table SQL : `users`
+
+## Documentation API
+- Swagger : http://localhost:3001/docs
+
+---
+**Auteur :** Projet DevOps DIT – 2026
