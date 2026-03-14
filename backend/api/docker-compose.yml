@@ -1,0 +1,53 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: usersdb
+    ports:
+      - "5433:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  users:
+    build: ../microservices/users
+    env_file:
+      - ../microservices/users/.env
+    depends_on:
+      - db
+    ports:
+      - "3001:3001"
+
+  books:
+    build: ../microservices/books
+    env_file:
+      - ../microservices/books/.env
+    depends_on:
+      - db
+    ports:
+      - "3002:3002"
+
+  emprunts:
+    build: ../microservices/emprunts
+    env_file:
+      - ../microservices/emprunts/.env
+    depends_on:
+      - db
+    ports:
+      - "3003:3003"
+
+  api:
+    build: ./
+    env_file:
+      - .env
+    depends_on:
+      - users
+      - books
+      - emprunts
+    ports:
+      - "3000:3000"
+
+volumes:
+  db_data:
