@@ -1,5 +1,0 @@
-# .env pour l'API Gateway
-USERS_URL=http://localhost:3001
-BOOKS_URL=http://localhost:3002
-EMPRUNTS_URL=http://localhost:3003
-PORT=3000
