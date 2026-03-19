@@ -1,59 +1,57 @@
-# Bibliothèque Numérique DIT – Backend
+# Bibliotheque Numerique DIT - Backend
 
-## Présentation
-Ce projet backend met en œuvre une architecture microservices pour la gestion d’une bibliothèque académique (livres, utilisateurs, emprunts) avec Node.js, Fastify, PostgreSQL, Docker et une API Gateway.
+## Presentation
+Le backend utilise desormais une architecture monolithique:
+un seul service API dans `backend/api` gere users, books et emprunts.
 
 ## Structure du projet
 ```
 backend/
-  api/           # API Gateway (orchestration)
-  microservices/
-    users/       # Microservice gestion des utilisateurs
-    books/       # Microservice gestion des livres
-    emprunts/    # Microservice gestion des emprunts
+  api/            # API monolithique (Fastify)
+  microservices/  # Ancienne architecture, non utilisee
 ```
 
-## Prérequis
-- Docker & Docker Compose
-- Node.js (pour développement local hors Docker)
+## Prerequis
+- Docker et Docker Compose
+- Node.js (pour lancement hors Docker)
 
-## Lancement rapide (recommandé)
-Dans le dossier `backend/api` :
+## Lancement rapide (recommande)
+Dans le dossier `backend/api`:
 ```bash
 docker-compose up --build
 ```
-- Base PostgreSQL sur le port 5433
-- Microservices users (3001), books (3002), emprunts (3003)
-- API Gateway sur le port 3000
 
-## Accès aux services
-- API Gateway : http://localhost:3000
-- Docs Swagger :
-  - Users : http://localhost:3001/docs
-  - Books : http://localhost:3002/docs
-  - Emprunts : http://localhost:3003/docs
-  - Liens centralisés : http://localhost:3000/docs
+Services demarres:
+- PostgreSQL sur `localhost:5433`
+- API monolithique sur `localhost:3000`
 
-## Arrêt des services
-Dans `backend/api` :
+## Acces
+- API: http://localhost:3000
+- Swagger: http://localhost:3000/docs
+- Healthcheck: http://localhost:3000/health
+
+## Arret
+Dans `backend/api`:
 ```bash
 docker-compose down
 ```
 
-## Initialisation manuelle des tables (hors Docker)
-Dans `backend/microservices` :
+## Initialisation des tables
+Les tables sont creees automatiquement au demarrage de l'API.
+Initialisation manuelle possible:
 ```bash
-sh init_all_tables.sh
+cd backend/api
+npm run initdb
 ```
 
-## Variables d’environnement
-Chaque microservice possède un fichier `.env` (voir exemples dans chaque dossier).
-
-## Fonctionnalités principales
-- **Users** : création, liste, profil, types d’utilisateurs
-- **Books** : ajout, modification, suppression, recherche, liste
-- **Emprunts** : emprunter, retourner, historique, détection des retards
-- **API Gateway** : point d’entrée unique, proxy vers chaque microservice
+## Variables d'environnement
+Configuration dans `backend/api/.env`:
+- `PORT`
+- `PGHOST`
+- `PGPORT`
+- `PGUSER`
+- `PGPASSWORD`
+- `PGDATABASE`
 
 ## Technologies
 - Node.js (Fastify)
@@ -61,10 +59,6 @@ Chaque microservice possède un fichier `.env` (voir exemples dans chaque dossie
 - Docker, Docker Compose
 - Swagger (OpenAPI)
 
-## Dépannage
-- Si le port 5433 est déjà utilisé, modifiez-le dans `docker-compose.yml` et tous les `.env`.
-- Vérifiez que tous les services sont bien lancés avant d’utiliser l’API Gateway.
-
 ---
 
-**Auteur :** Projet DevOps DIT – 2026
+**Auteur :** Projet DevOps DIT - 2026
