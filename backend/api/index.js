@@ -16,7 +16,7 @@ fastify.register(fastifySwagger, {
   swagger: {
     info: {
       title: 'Bibliotheque DIT API',
-      description: 'API monolithique de gestion des utilisateurs, livres et emprunts',
+      description: 'API  de gestion des utilisateurs, livres et emprunts',
       version: '1.0.0',
     },
     host: `localhost:${PORT}`,
@@ -45,7 +45,7 @@ const start = async () => {
   try {
     await initDb();
     await fastify.listen({ port: PORT, host: '0.0.0.0' });
-    fastify.log.info(`Monolithic API running on port ${PORT}`);
+    fastify.log.info(`API running on port ${PORT}`);
     fastify.log.info(`Swagger docs available at http://localhost:${PORT}/docs`);
   } catch (err) {
     fastify.log.error(err);

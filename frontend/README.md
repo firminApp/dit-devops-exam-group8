@@ -1,19 +1,44 @@
-# Frontend – Bibliothèque Numérique DIT (à venir)
+# Frontend - Bibliotheque Numerique DIT
 
-## Objectif
-Fournir une interface web moderne pour les utilisateurs de la bibliothèque (étudiants, professeurs, personnel).
+Application React (Vite) pour piloter les operations principales de la bibliotheque via l API backend Fastify.
 
-## Stack envisagée
-- React, Angular ou Vue.js
-- Appels à l’API Gateway (http://localhost:3000)
-- Authentification, gestion des livres, emprunts, profils, etc.
+## Fonctionnalites implementees
 
-## Lancement (à venir)
-- Instructions détaillées après implémentation.
+- Tableau de bord avec statistiques principales
+- Gestion des livres
+- Ajout de livre
+- Recherche de livres par titre, auteur, ISBN
+- Suppression de livre
+- Gestion des utilisateurs
+- Ajout d utilisateur
+- Suppression d utilisateur
+- Gestion des emprunts
+- Creation d emprunt
+- Retour d un emprunt
+- Consultation des retards
+- Consultation de l historique d emprunts par utilisateur
 
-## Intégration DevOps
-- Build et déploiement via pipeline CI/CD (Jenkins, GitHub Actions…)
-- Conteneurisation Docker prévue
+## Prerequis
 
----
-**Auteur :** Projet DevOps DIT – 2026
+- Node.js 20+
+- API backend disponible sur http://localhost:3000
+
+## Installation et lancement
+
+Depuis le dossier frontend:
+
+npm install
+npm run dev
+
+Application disponible par defaut sur http://localhost:5173
+
+## Configuration
+
+La base URL de l API peut etre surchargee avec une variable d environnement:
+
+VITE_API_BASE_URL=http://localhost:3000
+
+## Build production
+
+npm run build
+npm run preview

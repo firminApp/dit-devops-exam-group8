@@ -87,15 +87,15 @@ Chaque miroservice backend ou frontend doit posséder son propre :
 - Dockerfile
 Le projet devra être déployé avec :
 - Docker Compose
-Pipeline CI/CD
+# Pipeline CI/CD
 Vous devez mettre en place un pipeline CI/CD avec Jenkins permettant :
 - Récupération du code depuis GitHub
 - Construction de l’application
 - Build des images Docker
 - Déploiement automatique avec Docker Compose
 Le pipeline devra être défini dans un fichier :
-## Jenkinsfile
-Livrables attendus
+- Jenkinsfile
+# Livrables attendus
 Les éléments suivants sont obligatoires :
 
 1 - Code source

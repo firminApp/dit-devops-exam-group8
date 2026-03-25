@@ -1,60 +1,96 @@
 # Bibliotheque Numerique DIT - Projet Complet
 
 ## Presentation
-Ce projet fournit une plateforme de gestion de bibliotheque academique avec:
-- un backend monolithique Fastify (users, books, emprunts)
+Ce projet fournit une plateforme complete de gestion de bibliotheque academique avec :
+- un backend  Fastify (users, books, emprunts)
+- un frontend React
 - une base PostgreSQL
-- un frontend (a venir)
+- une interface d administration pgAdmin
 
 ## Architecture Generale
 ```
 backend/
-  api/            # API monolithique (point d'entree unique)
-  microservices/  # Ancienne architecture, conservee mais non utilisee
-frontend/         # Application web (a implementer)
-db/               # Donnees persistantes PostgreSQL (via Docker)
+  api/            # API  Fastify
+frontend/         # Application React (Vite)
+devops/           # Orchestration Docker Compose
+db/               # Donnees persistantes PostgreSQL (volume Docker)
 ```
 
 ## Cote DevOps
-- Conteneurisation via Docker
-- Orchestration avec `backend/api/docker-compose.yml`
-- Variables d'environnement dans `backend/api/.env`
-- Documentation Swagger unifiee dans l'API monolithique
+- Conteneurisation avec Docker
+- Orchestration centralisee avec [devops/docker-compose.yml](devops/docker-compose.yml)
+- API configuree via [backend/api/.env](backend/api/.env)
+- Healthcheck PostgreSQL pour garantir que la DB est prete avant l API et pgAdmin
 
 ## Demarrage du projet
-1. Prerequis:
-   - Docker et Docker Compose
-   - Node.js (optionnel pour execution hors Docker)
-2. Lancement (recommande):
+1. Prerequis :
+   - Docker
+   - Docker Compose
+2. Lancement (recommande) :
+
 ```bash
-cd backend/api
+cd devops
+docker compose up --build
+```
+
+Alternative compatible :
+
+```bash
+cd devops
 docker-compose up --build
 ```
-3. Acces:
-   - API: http://localhost:3000
-   - Swagger: http://localhost:3000/docs
-   - Healthcheck: http://localhost:3000/health
-4. Arret:
-```bash
-docker-compose down
-```
+
+## Acces
+- Frontend : http://localhost:8080
+- API : http://localhost:3000
+- Swagger : http://localhost:3000/docs
+- Healthcheck : http://localhost:3000/health
+- PostgreSQL : localhost:5433
+- pgAdmin : http://localhost:5050
+
+## Acces pgAdmin
+- Email : admin@gmail.com
+- Mot de passe : admin1234
+
+Configuration serveur PostgreSQL dans pgAdmin :
+- Host : db
+- Port : 5432
+- User : admin
+- Password : admin123
+- Database : librarydb
 
 ## Backend
-Toutes les routes sont servies par un seul process:
-- `/users`
-- `/books`
-- `/emprunts`
+Toutes les routes sont servies par un seul process :
+- /users
+- /books
+- /emprunts
 
-Les tables SQL sont creees automatiquement au demarrage de l'API.
+Les tables SQL sont creees automatiquement au demarrage de l API.
 
-## Frontend (a venir)
-- Le dossier `frontend/` accueillera l'application web cliente.
-- Le frontend consommera l'API sur `http://localhost:3000`.
+## Frontend
+Le frontend React consomme l API Fastify.
+
+Variable frontend disponible dans [frontend/.env](frontend/.env) :
+- VITE_API_BASE_URL=http://localhost:3000
+
+## Arret
+Depuis [devops](devops) :
+
+```bash
+docker compose down
+```
+
+Pour supprimer les volumes :
+
+```bash
+docker compose down -v
+```
 
 ## Documentation detaillee
 - [Backend API](backend/api/Readme.md)
 - [Frontend](frontend/README.md)
+- [DevOps](devops/Readme.md)
 
 ---
 
-**Auteur :** Projet DevOps DIT - 2026
+Auteur : Projet DevOps DIT - 2026
