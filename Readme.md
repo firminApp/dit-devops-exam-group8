@@ -6,6 +6,7 @@ Ce projet fournit une plateforme complete de gestion de bibliotheque academique 
 - un frontend React
 - une base PostgreSQL
 - une interface d administration pgAdmin
+- une instance Jenkins locale pour le pipeline CI/CD (hors Docker Compose)
 
 ## Architecture Generale
 ```
@@ -47,6 +48,8 @@ docker-compose up --build
 - Healthcheck : http://localhost:3000/health
 - PostgreSQL : localhost:5433
 - pgAdmin : http://localhost:5050
+
+Jenkins (conteneur autonome) : http://localhost:8081
 
 ## Acces pgAdmin
 - Email : admin@gmail.com

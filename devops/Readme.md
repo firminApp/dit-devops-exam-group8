@@ -34,6 +34,40 @@ docker-compose up --build
 - PostgreSQL : localhost:5433
 - pgAdmin : http://localhost:5050
 
+## Jenkins en conteneur autonome (hors Docker Compose)
+Jenkins est volontairement detache de docker-compose.
+
+Build de l image Jenkins locale :
+
+```bash
+docker build -t bibliotheque-jenkins:local ./jenkins
+```
+
+Lancement du conteneur Jenkins :
+
+```bash
+docker run -d \
+	--name jenkins-local \
+	-p 8081:8080 \
+	-p 50000:50000 \
+	-v jenkins_home_local:/var/jenkins_home \
+	-v /var/run/docker.sock:/var/run/docker.sock \
+	bibliotheque-jenkins:local
+```
+
+Recuperer le mot de passe admin initial :
+
+```bash
+docker exec jenkins-local cat /var/jenkins_home/secrets/initialAdminPassword
+```
+
+Puis dans Jenkins :
+- installer les plugins suggeres
+- creer un job Pipeline
+- configurer le job sur le depot GitHub
+- choisir Pipeline script from SCM
+- script path : Jenkinsfile
+
 ## Acces pgAdmin
 - Email : admin@gmail.com
 - Mot de passe : admin1234

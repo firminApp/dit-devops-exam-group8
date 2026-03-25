@@ -26,10 +26,18 @@ pipeline {
           set -e
 
           cd "$BACKEND_DIR"
-          npm ci
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
 
           cd "$WORKSPACE/$FRONTEND_DIR"
-          npm ci
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
           npm run build
         '''
       }
