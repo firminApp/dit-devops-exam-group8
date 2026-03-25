@@ -20,6 +20,18 @@ pipeline {
       }
     }
 
+    stage('Prepare Environment Files') {
+      steps {
+        sh '''
+          set -e
+
+          if [ ! -f "$BACKEND_DIR/.env" ]; then
+            cp "$BACKEND_DIR/example.env" "$BACKEND_DIR/.env"
+          fi
+        '''
+      }
+    }
+
     stage('Build Application') {
       steps {
         sh '''
