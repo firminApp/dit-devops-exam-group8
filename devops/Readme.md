@@ -48,12 +48,15 @@ Lancement du conteneur Jenkins :
 ```bash
 docker run -d \
 	--name jenkins-local \
+	--user root \
 	-p 8081:8080 \
 	-p 50000:50000 \
 	-v jenkins_home_local:/var/jenkins_home \
 	-v /var/run/docker.sock:/var/run/docker.sock \
 	bibliotheque-jenkins:local
 ```
+
+Note : `--user root` est requis pour que Jenkins puisse acceder au socket Docker monte et executer les etapes `docker compose` du pipeline.
 
 Recuperer le mot de passe admin initial :
 
