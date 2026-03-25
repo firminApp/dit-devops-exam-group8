@@ -1,49 +1,52 @@
 require('dotenv').config();
 const fastify = require('fastify')({ logger: true });
 const fastifyCors = require('@fastify/cors');
-const fastifyHttpProxy = require('@fastify/http-proxy');
+const fastifySwagger = require('@fastify/swagger');
+const fastifySwaggerUi = require('@fastify/swagger-ui');
+const userRoutes = require('./routes/userRoutes');
+const bookRoutes = require('./routes/bookRoutes');
+const empruntRoutes = require('./routes/empruntRoutes');
+const { initDb } = require('./models/initDb');
 
 const PORT = process.env.PORT || 3000;
 
 fastify.register(fastifyCors, { origin: '*' });
 
-// Proxy vers users
-fastify.register(fastifyHttpProxy, {
-  upstream: process.env.USERS_URL,
-  prefix: '/users',
-  rewritePrefix: '/users',
+fastify.register(fastifySwagger, {
+  swagger: {
+    info: {
+      title: 'Bibliotheque DIT API',
+      description: 'API  de gestion des utilisateurs, livres et emprunts',
+      version: '1.0.0',
+    },
+    host: `localhost:${PORT}`,
+    schemes: ['http'],
+    consumes: ['application/json'],
+    produces: ['application/json'],
+  },
+});
+fastify.register(fastifySwaggerUi, {
+  routePrefix: '/docs',
+  uiConfig: {
+    docExpansion: 'list',
+    deepLinking: false,
+  },
 });
 
-// Proxy vers books
-fastify.register(fastifyHttpProxy, {
-  upstream: process.env.BOOKS_URL,
-  prefix: '/books',
-  rewritePrefix: '/books',
-});
+fastify.register(userRoutes);
+fastify.register(bookRoutes);
+fastify.register(empruntRoutes);
 
-// Proxy vers emprunts
-fastify.register(fastifyHttpProxy, {
-  upstream: process.env.EMPRUNTS_URL,
-  prefix: '/emprunts',
-  rewritePrefix: '/emprunts',
-});
-
-// Route pour centraliser les liens vers les docs Swagger de chaque microservice
-fastify.get('/docs', async (request, reply) => {
-  reply.type('text/html').send(`
-    <h1>Documentation API</h1>
-    <ul>
-      <li><a href="http://localhost:3001/docs" target="_blank">Users API documentation</a></li>
-      <li><a href="http://localhost:3002/docs" target="_blank">Books API documentation</a></li>
-      <li><a href="http://localhost:3003/docs" target="_blank">Emprunts API documentation</a></li>
-    </ul>
-  `);
+fastify.get('/health', async () => {
+  return { status: 'ok' };
 });
 
 const start = async () => {
   try {
+    await initDb();
     await fastify.listen({ port: PORT, host: '0.0.0.0' });
-    fastify.log.info(`API Gateway running on port ${PORT}`);
+    fastify.log.info(`API running on port ${PORT}`);
+    fastify.log.info(`Swagger docs available at http://localhost:${PORT}/docs`);
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);

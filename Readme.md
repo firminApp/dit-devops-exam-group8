@@ -1,83 +1,99 @@
-# Bibliothèque Numérique DIT – Projet Complet
+# Bibliotheque Numerique DIT - Projet Complet
 
-## Présentation
-Ce projet met en œuvre une plateforme de gestion de bibliothèque académique basée sur une architecture microservices, avec une API Gateway, une base de données PostgreSQL, et un frontend moderne (à venir). L’ensemble est orchestré et industrialisé avec Docker, Docker Compose et une approche DevOps.
+## Presentation
+Ce projet fournit une plateforme complete de gestion de bibliotheque academique avec :
+- un backend  Fastify (users, books, emprunts)
+- un frontend React
+- une base PostgreSQL
+- une interface d administration pgAdmin
+- une instance Jenkins locale pour le pipeline CI/CD (hors Docker Compose)
 
-## Architecture Générale
+## Architecture Generale
 ```
 backend/
-  api/           # API Gateway (orchestration, point d’entrée unique)
-  microservices/
-    users/       # Microservice gestion des utilisateurs
-    books/       # Microservice gestion des livres
-    emprunts/    # Microservice gestion des emprunts
-frontend/        # Application web (React, Angular, ou Vue – à implémenter)
-db/              # Données persistantes PostgreSQL (via Docker)
+  api/            # API  Fastify
+frontend/         # Application React (Vite)
+devops/           # Orchestration Docker Compose
+db/               # Donnees persistantes PostgreSQL (volume Docker)
 ```
 
-- **API Gateway** : Route et sécurise toutes les requêtes vers les microservices.
-- **Microservices** : Chaque domaine métier (utilisateurs, livres, emprunts) est isolé, scalable et documenté (Swagger).
-- **Base de données** : PostgreSQL, partagée entre les microservices.
-- **Frontend** : (à venir) Application web moderne pour les utilisateurs finaux.
+## Cote DevOps
+- Conteneurisation avec Docker
+- Orchestration centralisee avec [devops/docker-compose.yml](devops/docker-compose.yml)
+- API configuree via [backend/api/.env](backend/api/.env)
+- Healthcheck PostgreSQL pour garantir que la DB est prete avant l API et pgAdmin
 
-## Côté DevOps
-- **Conteneurisation** : Chaque composant (API, microservices, DB) possède son Dockerfile.
-- **Orchestration** : Un fichier `docker-compose.yml` permet de lancer l’ensemble de l’architecture en une seule commande.
-- **Variables d’environnement** : Centralisées dans des fichiers `.env` pour chaque service.
-- **Documentation API** : Swagger disponible pour chaque microservice et centralisé via l’API Gateway.
-- **Automatisation** : Script d’initialisation des tables SQL, gestion des dépendances, et guide de démarrage.
-- **CI/CD** : (à implémenter) Pipeline Jenkins ou GitHub Actions pour build, tests, et déploiement automatisé.
+## Demarrage du projet
+1. Prerequis :
+   - Docker
+   - Docker Compose
+2. Lancement (recommande) :
 
-## Démarrage de l’ensemble du projet
-1. **Prérequis**
-   - Docker & Docker Compose
-   - Node.js (pour développement local ou tests hors Docker)
+```bash
+cd devops
+docker compose up --build
+```
 
-2. **Lancement complet (recommandé)**
-   Dans le dossier `backend/api` :
-   ```bash
-   docker-compose up --build
-   ```
-   - PostgreSQL sur le port 5433
-   - Microservices users (3001), books (3002), emprunts (3003)
-   - API Gateway sur le port 3000
+Alternative compatible :
 
-3. **Accès aux services**
-   - API Gateway : http://localhost:3000
-   - Docs Swagger :
-     - Users : http://localhost:3001/docs
-     - Books : http://localhost:3002/docs
-     - Emprunts : http://localhost:3003/docs
-     - Liens centralisés : http://localhost:3000/docs
+```bash
+cd devops
+docker-compose up --build
+```
 
-4. **Arrêt de l’ensemble**
-   ```bash
-   docker-compose down
-   ```
+## Acces
+- Frontend : http://localhost:8080
+- API : http://localhost:3000
+- Swagger : http://localhost:3000/docs
+- Healthcheck : http://localhost:3000/health
+- PostgreSQL : localhost:5433
+- pgAdmin : http://localhost:5050
 
-5. **Initialisation manuelle des tables (hors Docker)**
-   Dans `backend/microservices` :
-   ```bash
-   sh init_all_tables.sh
-   ```
+Jenkins (conteneur autonome) : http://localhost:8081
 
-## Frontend (à venir)
-- Le dossier `frontend/` accueillera une application web moderne (React, Angular ou Vue).
-- Elle consommera l’API Gateway pour toutes les opérations (authentification, gestion des livres, emprunts, etc.).
-- Le build et le déploiement du frontend seront intégrés au pipeline DevOps.
+## Acces pgAdmin
+- Email : admin@gmail.com
+- Mot de passe : admin1234
 
-## Documentation détaillée par composant
-- [API Gateway](backend/api/README.md)
-- [Microservice Users](backend/microservices/users/README.md)
-- [Microservice Books](backend/microservices/books/README.md)
-- [Microservice Emprunts](backend/microservices/emprunts/README.md)
-- [Frontend (à venir)](frontend/README.md)
+Configuration serveur PostgreSQL dans pgAdmin :
+- Host : db
+- Port : 5432
+- User : admin
+- Password : admin123
+- Database : librarydb
 
-## Conseils & Dépannage
-- Si le port 5433 est déjà utilisé, modifiez-le dans `docker-compose.yml` et tous les `.env`.
-- Vérifiez que tous les services sont bien lancés avant d’utiliser l’API Gateway.
-- Pour la CI/CD, ajoutez un Jenkinsfile ou un workflow GitHub Actions à la racine du projet.
+## Backend
+Toutes les routes sont servies par un seul process :
+- /users
+- /books
+- /emprunts
+
+Les tables SQL sont creees automatiquement au demarrage de l API.
+
+## Frontend
+Le frontend React consomme l API Fastify.
+
+Variable frontend disponible dans [frontend/.env](frontend/.env) :
+- VITE_API_BASE_URL=http://localhost:3000
+
+## Arret
+Depuis [devops](devops) :
+
+```bash
+docker compose down
+```
+
+Pour supprimer les volumes :
+
+```bash
+docker compose down -v
+```
+
+## Documentation detaillee
+- [Backend API](backend/api/Readme.md)
+- [Frontend](frontend/README.md)
+- [DevOps](devops/Readme.md)
 
 ---
 
-**Auteur :** Projet DevOps DIT – 2026
+Auteur : Projet DevOps DIT - 2026

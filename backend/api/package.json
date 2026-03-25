@@ -1,19 +1,22 @@
 {
-  "name": "api-gateway",
+  "name": "bibliotheque-api",
   "version": "1.0.0",
-  "description": "API Gateway pour orchestrer les microservices users, books et emprunts.",
+  "description": "API monolithique pour gerer users, books et emprunts.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "initdb": "node scripts/initDb.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "fastify": "^4.27.2",
     "@fastify/cors": "^8.4.0",
-    "@fastify/http-proxy": "8.4.0",
-    "dotenv": "^16.4.5"
+    "@fastify/swagger": "^8.12.0",
+    "@fastify/swagger-ui": "^2.0.1",
+    "dotenv": "^16.4.5",
+    "pg": "^8.11.3"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
