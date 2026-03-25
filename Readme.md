@@ -31,6 +31,8 @@ db/               # Donnees persistantes PostgreSQL (volume Docker)
 ```bash
 git clone https://github.com/firminApp/dit-devops-exam-group8.git
 
+cd dit-devops-exam-group8
+
 ```
 
 3. Lancement (recommande) :
