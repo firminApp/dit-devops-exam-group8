@@ -20,11 +20,13 @@ services:
     build:
       context: ../backend/api
       dockerfile: Dockerfile
-    env_file:
-      - ../backend/api/.env
     environment:
+      PORT: 3000
       PGHOST: db
       PGPORT: 5432
+      PGUSER: admin
+      PGPASSWORD: admin123
+      PGDATABASE: librarydb
     depends_on:
       db:
         condition: service_healthy

@@ -26,7 +26,14 @@ pipeline {
           set -e
 
           if [ ! -f "$BACKEND_DIR/.env" ]; then
-            cp "$BACKEND_DIR/example.env" "$BACKEND_DIR/.env"
+            if [ -f "$BACKEND_DIR/example.env" ]; then
+              cp "$BACKEND_DIR/example.env" "$BACKEND_DIR/.env"
+            elif [ -f "$BACKEND_DIR/exemple.env" ]; then
+              cp "$BACKEND_DIR/exemple.env" "$BACKEND_DIR/.env"
+            else
+              echo "Erreur: aucun fichier example.env/exemple.env trouve dans $BACKEND_DIR"
+              exit 1
+            fi
           fi
         '''
       }
