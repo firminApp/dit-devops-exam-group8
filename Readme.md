@@ -27,7 +27,13 @@ db/               # Donnees persistantes PostgreSQL (volume Docker)
 1. Prerequis :
    - Docker
    - Docker Compose
-2. Lancement (recommande) :
+2. Clonnage du depot git
+```bash
+git clone https://github.com/firminApp/dit-devops-exam-group8.git
+
+```
+
+3. Lancement (recommande) :
 
 ```bash
 cd devops
