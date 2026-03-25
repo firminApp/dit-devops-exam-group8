@@ -58,6 +58,14 @@ docker run -d \
 
 Note : `--user root` est requis pour que Jenkins puisse acceder au socket Docker monte et executer les etapes `docker compose` du pipeline.
 
+Si Jenkins affiche une erreur Git au checkout SCM (exemple : `fatal: not in a git directory` sur le dossier `@script`), appliquer une fois :
+
+```bash
+docker exec jenkins-local git config --global --add safe.directory '*'
+```
+
+Cette configuration est egalement integree dans l image locale `devops/jenkins/Dockerfile`.
+
 Recuperer le mot de passe admin initial :
 
 ```bash
