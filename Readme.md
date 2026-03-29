@@ -31,6 +31,8 @@ db/               # Donnees persistantes PostgreSQL (volume Docker)
 ```bash
 git clone https://github.com/firminApp/dit-devops-exam-group8.git
 
+cd dit-devops-exam-group8
+
 ```
 
 3. Lancement (recommande) :
@@ -100,6 +102,13 @@ docker compose down -v
 - [Frontend](frontend/README.md)
 - [DevOps](devops/Readme.md)
 
+# CI/CD avec jenkins
+ si vous n'avez pas une instance de jenkins deja en cours d'utilisation
+ vous pouver exécute le script run-jenkins.sh pour lancer un container jenkins
+
+ ```bash
+./jenkins/run-jenkins.sh
+```
 ---
 
 Auteur : Projet DevOps DIT - 2026
